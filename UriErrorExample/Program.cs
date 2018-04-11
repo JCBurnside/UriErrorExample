@@ -7,9 +7,25 @@ namespace UriErrorExample
     {
         static void Main(string[] args)
         {
-            
-            FileInfo file = new FileInfo(new Uri(typeof(Program).Assembly.Location+"/testing#folder/testingdoc.txt").LocalPath);
-            using (FileStream x = file.OpenRead())
+
+            FileInfo uriFile = new FileInfo(new Uri(typeof(Program).Assembly.Location + "/testing#folder/testingdoc.txt").LocalPath);
+            FileInfo stringFile = new FileInfo(typeof(Program).Assembly.Location + "/testing#folder/testingdoc.txt");
+            try
+            {
+
+                ReadFile(uriFile);
+            }
+            catch (Exception) { }
+            try
+            {
+                ReadFile(stringFile);
+            }
+            catch (Exception) { }
+            Console.ReadKey();
+        }
+        static void ReadFile(FileInfo info)
+        {
+            using (FileStream x = info.OpenRead())
             {
                 byte[] buffer = new byte[x.Length];
                 int numBytesToRead = (int)x.Length;
